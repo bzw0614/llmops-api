@@ -8,7 +8,7 @@ class Router:
     app_handler:AppHandler
     def __init__(self,app_handler:AppHandler):
         self.app_handler = app_handler
-    def router_register(self,app:Flask):
+    def register_router(self,app:Flask):
         """注册路由"""
         #1.创建一个蓝图
         bp = Blueprint("llmops",__name__,url_prefix="",)
