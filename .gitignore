@@ -1,0 +1,58 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Logs / runtime data
+*.log
+logs/
+tmp/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage/
+htmlcov/
+storage/
+
+# IDE / editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.cursor/
+
+# Environment / secrets
+.env
+.env.*
+*.env
+.python-version
+
+# Databases / local files
+*.sqlite
+*.sqlite3
+*.db
+
+# Node / frontend
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
