@@ -1,14 +1,14 @@
 import os
 
 from openai import OpenAI
-from flask import request
+from flask import request, jsonify
 from internal.schema.app_schema import CompletionReq
-
+from pkg.response import Response,HttpCode,success_json,validation_error_json
 class AppHandler:
     def completion(self):
         req = CompletionReq()
         if not req.validate():
-            return req.errors
+            return validation_error_json(req.errors)
         query = request.json.get('query')
         client = OpenAI(
             base_url=os.getenv("OPEN_API_BASE"),
@@ -34,6 +34,9 @@ class AppHandler:
         #     ]
         # )
         content = completion.choices[0].message.content
-        return content
+        resp = Response(code = HttpCode.SUCCESS,message = "",data = {"content":content})
+        '''Flask API的返回格式：字典、字符串、序列化后的字典'''
+        '''没法直接返回resp'''
+        return success_json({"content":content})
     def ping(self):
         return {"ping":"pong"}
