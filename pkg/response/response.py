@@ -33,8 +33,8 @@ def validation_error_json(errors:dict=None):
         msg = ""
     return jsonify(Response(code=HttpCode.VALIDATION_ERROR,message=msg,data=errors))
 
-def message(code:HttpCode=None,msg:str=""):
-    return json(Response(code=code,message=msg,data={}))
+def message(code:HttpCode=None,message:str=""):
+    return json(Response(code=code,message=message,data={}))
 
 def success_message(msg:str=""):
     return message(code=HttpCode.SUCCESS,message=msg)

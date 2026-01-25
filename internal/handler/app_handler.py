@@ -1,10 +1,27 @@
 import os
+import uuid
+from dataclasses import dataclass
 
+from injector import inject
 from openai import OpenAI
 from flask import request, jsonify
 from internal.schema.app_schema import CompletionReq
-from pkg.response import Response,HttpCode,success_json,validation_error_json
+from pkg.response import Response, HttpCode, success_json, validation_error_json, success_message
+from internal.service.AppService import AppService
+@inject
+@dataclass
 class AppHandler:
+    app_Service : AppService
+    def create_app(self):
+        # 调用服务创建app
+        app = self.app_Service.create_app()
+        return success_message(f"应用已经创建成功，id为{app.id}")
+
+    def get_app(self,id:uuid.UUID):
+        # 调用服务创建app
+        app = self.app_Service.get_app(id)
+        return success_message(f"获取应用成功，应用名为{app.name}")
+
     def completion(self):
         req = CompletionReq()
         if not req.validate():

@@ -7,10 +7,11 @@
 """
 from flask import Flask,jsonify
 from internal.exception import CustomException
+from internal.model import App
 from pkg.response import Response,HttpCode,json
 from internal.router import Router
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
+from pkg.sqlalchemy import SQLAlchemy
 class Http(Flask):
     #第一个参数是 非命名参数 例如1234 第二个参数是命名参数例如a=1
     #命名参数要写在非命名参数之后
@@ -22,6 +23,10 @@ class Http(Flask):
 
         # 初始化sql
         db.init_app(self)
+        # 生成数据库表
+        with self.app_context():
+            _ = App()
+            db.create_all()
         # 注册应用路由
         # 这样就不用写一大堆@app.route()
         router.register_router(self)
@@ -32,4 +37,4 @@ class Http(Flask):
         if isinstance(error,CustomException):
             return json(Response(code = error.code,message=error.message,data=error.data if error.data is not None else {}))
         # 如果不是我们的自定义异常，有可能是数据库、程序抛出的，也可以提取信息，设置FAIL状态码
-        return json(Response(code = HttpCode.FAIL,message=str(error)),data={})
+        return json(Response(code = HttpCode.FAIL,message=str(error),data={}))

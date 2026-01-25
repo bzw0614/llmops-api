@@ -9,11 +9,13 @@ from injector import Injector
 from internal.router import Router
 from internal.server import Http
 from config import Config
-from internal.extension.database_extension import db
+from pkg.sqlalchemy import SQLAlchemy
 import dotenv
+from .module import DatabaseModule
+
 dotenv.load_dotenv()
-injector = Injector()
+injector = Injector([DatabaseModule])
 conf = Config()
-app = Http(__name__, db = db,config = conf,router=injector.get(Router))
+app = Http(__name__, db = injector.get(SQLAlchemy),config = conf,router=injector.get(Router))
 if(__name__ == "__main__"):
     app.run(debug=True)
