@@ -12,10 +12,10 @@ from config import Config
 from pkg.sqlalchemy import SQLAlchemy
 import dotenv
 from .module import DatabaseModule
-
+from flask_migrate import Migrate
 dotenv.load_dotenv()
 injector = Injector([DatabaseModule])
 conf = Config()
-app = Http(__name__, db = injector.get(SQLAlchemy),config = conf,router=injector.get(Router))
+app = Http(__name__, db = injector.get(SQLAlchemy),migrate=injector.get(Migrate),config = conf,router=injector.get(Router))
 if(__name__ == "__main__"):
     app.run(debug=True)
